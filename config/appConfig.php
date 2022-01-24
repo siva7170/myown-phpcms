@@ -1,6 +1,6 @@
 <?php
-use \myownphpcms\core\config\DatabaseConfig;
-use \myownphpcms\core\config\AppConfig;
+use myownphpcms\core\config\DatabaseConfig;
+use myownphpcms\core\config\AppConfig;
 
 return new AppConfig([
     "coreConfig"=>[

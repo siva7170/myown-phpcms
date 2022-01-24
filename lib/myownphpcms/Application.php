@@ -1,20 +1,23 @@
 <?php
 namespace myownphpcms;
 
-use \myownphpcms\core\config\AppConfig;
+use myownphpcms\core\config\AppConfig;
 use myownphpcms\core\handler\Request;
 use myownphpcms\core\handler\Router;
 use myownphpcms\core\handler\Switcher;
+use myownphpcms\core\render\RendererInit;
 
 class Application{
     private $appConfig;
     private $request;
     public $router;
     private $switcher;
+    private $render;
     public function __construct(){
         $this->request=new Request();
         $this->router=new Router();
         $this->switcher=new Switcher();
+        $this->render=new RendererInit();
     }
 
     public function init($configRootPath="config"){
@@ -28,5 +31,7 @@ class Application{
             $appConfig["coreConfig"]["app"]["default"]["appExternalRoot"]);
         $this->router->resolve($this->request);
         $this->switcher->resolve($this->router);
+        $this->render->resolve($this->switcher);
+        //echo '<pre>'.print_r($this->switcher->router,true).'</pre>';
     }
 }
