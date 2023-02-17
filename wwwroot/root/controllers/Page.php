@@ -4,7 +4,7 @@ namespace root\controllers;
 use myownphpcms\core\mvc\Controller;
 use root\models\UserLogin;
 
-class Index extends Controller{
+class Page extends Controller{
 
     public function index(){
         $this->layoutFile="main";

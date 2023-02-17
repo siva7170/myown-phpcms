@@ -28,7 +28,9 @@ class Application{
         $this->request->resolve($appConfig["coreConfig"]["app"]["default"]["defaultIndexRoot"],
             $appConfig["coreConfig"]["app"]["default"]["webFilesRoot"],
             $appConfig["coreConfig"]["app"]["default"]["appInternalRoot"],
-            $appConfig["coreConfig"]["app"]["default"]["appExternalRoot"]);
+            $appConfig["coreConfig"]["app"]["default"]["appExternalRoot"],
+            $appConfig["coreConfig"]["app"]["default"]["errorRoute"]
+        );
         $this->router->resolve($this->request);
         $this->switcher->resolve($this->router);
         $this->render->resolve($this->switcher);

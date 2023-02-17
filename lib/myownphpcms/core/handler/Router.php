@@ -6,6 +6,8 @@ class Router{
     public $action;
     public $module;
     public $request;
+    public $errorRoute;
+    public $errorRouteObj;
     public function __construct(){
 
     }

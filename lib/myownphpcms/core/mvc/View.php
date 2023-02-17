@@ -1,5 +1,6 @@
 <?php
 namespace myownphpcms\core\mvc;
+use myownphpcms\core\exception\MOException;
 
 class View {
    public $content;
@@ -20,9 +21,15 @@ class View {
    public function view($viewFile){
        $this->viewFile=$viewFile;
        $this->viewFile_full=$this->webFilesRoot."/".$this->module."/views/".$this->controller."/".$viewFile.".php";
-       ob_start();
-       include $this->viewFile_full;
-       $this->content=ob_get_clean();
-       return $this;
+       if(file_exists($this->viewFile_full)){
+        ob_start();
+        include $this->viewFile_full;
+        $this->content=ob_get_clean();
+        return $this;
+       }
+       else{
+           throw new MOException("\"$viewFile\" view is not found in $this->module\\$this->controller");
+       }
+      
    }
 }

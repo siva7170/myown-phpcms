@@ -16,6 +16,7 @@ class Request{
     public $defaultIndexRoot;
     public $webFilesRoot;
     public $appDocumentRoot;
+    public $errorRoute;
 
     public function __construct(){
         $this->routePath=$_REQUEST["url"]??"root_url";
@@ -23,11 +24,12 @@ class Request{
         $this->pathURL=$_SERVER["REQUEST_URI"];
     }
 
-    public function resolve($defaultIndexRoot,$webFilesRoot,$appInternalRoot,$appExternalRoot){
+    public function resolve($defaultIndexRoot,$webFilesRoot,$appInternalRoot,$appExternalRoot,$errorRoutePath){
         $this->defaultIndexRoot=$defaultIndexRoot;
         $this->webFilesRoot=$webFilesRoot;
         $this->appDocumentRoot=$appInternalRoot;
         $this->rootURL=$appExternalRoot;
+        $this->errorRoute=$errorRoutePath;
     }
 
     public function getRequestObj(){

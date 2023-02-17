@@ -8,8 +8,9 @@ return new AppConfig([
             "default"=>[
                 "defaultIndexRoot"=>"root",
                 "webFilesRoot"=>"wwwroot",
-                "appInternalRoot"=>"D:\\web\wwwroot\\myownphpcms\\",
-                "appExternalRoot"=>"http//localhost/myownphpcms/",
+                "appInternalRoot"=>"D:\\web\\php\\myown-phpcms",
+                "appExternalRoot"=>"http//localhost/",
+                "errorRoute"=>"error/notfound",
                 "dbConfig"=>[
                     new DatabaseConfig("localhost","root","","myownphpcms"),
                     new DatabaseConfig("localhost","root","","myownphpcms")
