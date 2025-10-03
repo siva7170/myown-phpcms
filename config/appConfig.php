@@ -12,8 +12,7 @@ return new AppConfig([
                 "appExternalRoot"=>"http//localhost/",
                 "errorRoute"=>"error/notfound",
                 "dbConfig"=>[
-                    new DatabaseConfig("localhost","root","","myownphpcms"),
-                    new DatabaseConfig("localhost","root","","myownphpcms")
+                    new DatabaseConfig("localhost","root","","my_test")
                 ],
             ]
         ]

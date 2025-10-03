@@ -18,18 +18,21 @@ class Request{
     public $appDocumentRoot;
     public $errorRoute;
 
+    public $dbConn;
+
     public function __construct(){
         $this->routePath=$_REQUEST["url"]??"root_url";
         $this->fullURL=$_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."".$_SERVER["REQUEST_URI"];
         $this->pathURL=$_SERVER["REQUEST_URI"];
     }
 
-    public function resolve($defaultIndexRoot,$webFilesRoot,$appInternalRoot,$appExternalRoot,$errorRoutePath){
+    public function resolve($defaultIndexRoot,$webFilesRoot,$appInternalRoot,$appExternalRoot,$errorRoutePath,$dbConn=null){
         $this->defaultIndexRoot=$defaultIndexRoot;
         $this->webFilesRoot=$webFilesRoot;
         $this->appDocumentRoot=$appInternalRoot;
         $this->rootURL=$appExternalRoot;
         $this->errorRoute=$errorRoutePath;
+        $this->dbConn=$dbConn;
     }
 
     public function getRequestObj(){

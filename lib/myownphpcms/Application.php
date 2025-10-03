@@ -1,6 +1,7 @@
 <?php
 namespace myownphpcms;
 
+use cls\Database\DbHandler;
 use myownphpcms\core\config\AppConfig;
 use myownphpcms\core\handler\Request;
 use myownphpcms\core\handler\Router;
@@ -9,6 +10,7 @@ use myownphpcms\core\render\RendererInit;
 
 class Application{
     private $appConfig;
+    public $db;
     private $request;
     public $router;
     private $switcher;
@@ -18,6 +20,7 @@ class Application{
         $this->router=new Router();
         $this->switcher=new Switcher();
         $this->render=new RendererInit();
+        //$this->db=new DbHandler();
     }
 
     public function init($configRootPath="config"){
@@ -29,7 +32,8 @@ class Application{
             $appConfig["coreConfig"]["app"]["default"]["webFilesRoot"],
             $appConfig["coreConfig"]["app"]["default"]["appInternalRoot"],
             $appConfig["coreConfig"]["app"]["default"]["appExternalRoot"],
-            $appConfig["coreConfig"]["app"]["default"]["errorRoute"]
+            $appConfig["coreConfig"]["app"]["default"]["errorRoute"],
+            $appConfig["coreConfig"]["app"]["default"]["dbConfig"][0]
         );
         $this->router->resolve($this->request);
         $this->switcher->resolve($this->router);

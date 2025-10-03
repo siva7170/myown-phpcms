@@ -3,9 +3,16 @@ namespace root\models;
 
 use myownphpcms\core\database\DbDataModel;
 
+/**
+ * @property int $id
+ * @property string $user_name
+ * @property string $user_email
+ * @property string $user_pass
+ * @property string $active_status
+ */
 class UserLogin extends DbDataModel {
 
-    protected function setFieldName()
+    protected function setTableName()
     {
         return "user_login";
     }

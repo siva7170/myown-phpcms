@@ -1,6 +1,8 @@
 <?php
 namespace myownphpcms\core\database;
 
+use PDO;
+
 class Database{
     private $db_conn;
     private $db_host;
@@ -10,6 +12,8 @@ class Database{
     private $sql;
     private $res;
     private $row;
+    private $isConnected;
+    private static $pdo;
 
     public function __construct($db_host='',$db_user='',$db_pass='',$db_name='')
     {
@@ -22,6 +26,28 @@ class Database{
             $this->db_name=$db_name;
         }
         $this->db_conn=new \mysqli();
+        if($this->db_conn->connect_error)
+            $this->isConnected=false;
+        else
+            $this->isConnected=true;
+    }
+
+    public static function connectPDO($db_host='',$db_user='',$db_pass='',$db_name='') {
+        if (!self::$pdo) {
+            $host = $db_host;
+            $dbname = $db_name;
+            $user = $db_user;
+            $pass = $db_pass;
+
+            $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+            self::$pdo = new PDO($dsn, $user, $pass);
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        return self::$pdo;
+    }
+
+    public function isConnected(){
+        return $this->isConnected;
     }
 
     public function getDbHost()
@@ -66,10 +92,15 @@ class Database{
 
     public function connect($db_host,$db_user,$db_pass,$db_name){
         $this->db_conn = new \mysqli($db_host,$db_user,$db_pass,$db_name);
-        if($this->db_conn->connect_error)
+        if($this->db_conn->connect_error){
+            $this->isConnected=false;
             return false;
+        }
         else
+        {
+            $this->isConnected=true;
             return $this;
+        }
     }
 
     public function disconnect(){

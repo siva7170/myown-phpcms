@@ -8,7 +8,8 @@ class Index extends Controller{
 
     public function index(){
         $this->layoutFile="main";
-        return $this->view("index");
+        $userLogin=UserLogin::find()->where(["user_name"=>"Siva"])->firstOrDefault();
+        return $this->view("index",["t"=>$userLogin]);
     }
 
     public function login(){

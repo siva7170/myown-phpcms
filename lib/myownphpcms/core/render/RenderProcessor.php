@@ -2,6 +2,10 @@
 
 namespace myownphpcms\core\render;
 
+use myownphpcms\core\database\Database;
+use myownphpcms\core\database\DbDataModel;
+use myownphpcms\core\database\DbOperations;
+
 class RenderProcessor {
     public $router;
     public $controller;
@@ -9,6 +13,9 @@ class RenderProcessor {
     public $action;
     public $module;
     public $layoutFile;
+
+    public $dbConn;
+    public $dbConfig;
 
     private $modulePath;
     private $controllerFile;
@@ -18,8 +25,27 @@ class RenderProcessor {
     public function __construct($router)
     {
         $this->router=$router;
+        $this->dbConfig=$router->request->dbConn->getDbConfig();
+        //$this->dbConn=new Database();
+        //$this->dbConn->connect($this->dbConfig["host"],$this->dbConfig["user"],$this->dbConfig["pass"],$this->dbConfig["dbname"]);
         $this->findModule();
     }
+
+    public function loadAllModels($baseDir) {
+        // Scan all subfolders in base directory
+        $subFolders = array_filter(glob($baseDir . '/*'), 'is_dir');
+
+        foreach ($subFolders as $folder) {
+            $modelsFolder = $folder . '/models';
+            if (is_dir($modelsFolder)) {
+                // Include all PHP files in models folder
+                foreach (glob($modelsFolder . '/*.php') as $file) {
+                    include_once $file;
+                }
+            }
+        }
+    }
+
 
     public function findModule($errorCallback=false){
         if(file_exists($this->router->request->webFilesRoot."/".$this->router->module)){
@@ -66,6 +92,8 @@ class RenderProcessor {
 
     public function loadController($errorCallback=false){
         include $this->controllerFile;
+        $this->loadAllModels($this->router->request->webFilesRoot);
+        DbDataModel::setDb(Database::connectPDO($this->dbConfig["host"],$this->dbConfig["user"],$this->dbConfig["pass"],$this->dbConfig["dbname"]));
         $controllerName=ucfirst($this->router->controller);
         $qualifiedClass='\\'.$this->router->module.'\\controllers\\'.$controllerName;
         if(class_exists($qualifiedClass)){
@@ -73,6 +101,7 @@ class RenderProcessor {
             if(method_exists($this->controllerObj,$this->router->action)){
                 $this->controllerObj->setPrimaryValues($this->router->request->webFilesRoot,
                 $this->router->module,$this->router->controller,$this->router->action);
+
                 $this->controllerObj->{$this->router->action}();
                 //echo '||<pre>'.print_r($this->controllerObj,true).'</pre>';
                 //echo $this->controllerObj->content;
@@ -126,6 +155,7 @@ class RenderProcessor {
     }
 
     public function handOver(){
+        //$this->dbConn->disconnect();
         $renderFinisher=new RenderFinisher();
         $renderFinisher->setRenderOutput($this->finalRender);
         $renderFinisher->send();

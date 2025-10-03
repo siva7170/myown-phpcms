@@ -18,10 +18,13 @@ class View {
 
    }
 
-   public function view($viewFile){
+   public function view($viewFile, $valArg=[]){
        $this->viewFile=$viewFile;
        $this->viewFile_full=$this->webFilesRoot."/".$this->module."/views/".$this->controller."/".$viewFile.".php";
        if(file_exists($this->viewFile_full)){
+           if (is_array($valArg)) {
+               extract($valArg);
+           }
         ob_start();
         include $this->viewFile_full;
         $this->content=ob_get_clean();
