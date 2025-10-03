@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Testing MVC - Inner</title>
+    <title><?php echo $pageTitle;?></title>
 </head>
 <body>
 <?php

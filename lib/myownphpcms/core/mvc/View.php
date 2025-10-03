@@ -1,5 +1,6 @@
 <?php
 namespace myownphpcms\core\mvc;
+
 use myownphpcms\core\exception\MOException;
 
 class View {
@@ -7,6 +8,8 @@ class View {
    public $viewFile;
    public $layoutFile;
    public $viewFile_full;
+
+   public $pageTitle;
 
    public $webFilesRoot;
     public $controller;

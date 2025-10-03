@@ -7,6 +7,7 @@ use root\models\UserLogin;
 class Index extends Controller{
 
     public function index(){
+        $this->pageTitle="Set from Test Controller";
         $this->layoutFile="main";
         $userLogin=UserLogin::find()->where(["user_name"=>"Siva"])->firstOrDefault();
         return $this->view("index",["t"=>$userLogin]);

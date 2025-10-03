@@ -107,6 +107,7 @@ class RenderProcessor {
                 //echo $this->controllerObj->content;
                 $viewContent=$this->controllerObj->content."\n";
                 $layoutFile=$this->router->request->webFilesRoot."/".$this->router->module."/layouts/".$this->controllerObj->layoutFile.".php";
+                $pageTitle=$this->controllerObj->pageTitle;
                 ob_start();
                 include $layoutFile;
                 $this->finalRender=ob_get_clean(); 
