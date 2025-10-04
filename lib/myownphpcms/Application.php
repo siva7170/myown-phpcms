@@ -33,6 +33,7 @@ class Application{
             $appConfig["coreConfig"]["app"]["default"]["appInternalRoot"],
             $appConfig["coreConfig"]["app"]["default"]["appExternalRoot"],
             $appConfig["coreConfig"]["app"]["default"]["errorRoute"],
+            $appConfig["coreConfig"]["app"]["default"]["urlSegments"],
             $appConfig["coreConfig"]["app"]["default"]["dbConfig"][0]
         );
         $this->router->resolve($this->request);

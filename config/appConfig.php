@@ -14,6 +14,12 @@ return new AppConfig([
                 "dbConfig"=>[
                     new DatabaseConfig("localhost","root","","my_test")
                 ],
+                "urlSegments"=>[
+                    "^page\/viewpost\/([A-Za-z0-9]+)\/([A-Za-z0-9]+)$"=>new \myownphpcms\core\handler\URLSegment("root","page","viewpost",[
+                        "[1]"=>"categorySlug",
+                        "[2]"=>"postSlug"
+                    ])
+                ]
             ]
         ]
     ],

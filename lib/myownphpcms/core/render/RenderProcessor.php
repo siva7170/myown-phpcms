@@ -101,6 +101,7 @@ class RenderProcessor {
             if(method_exists($this->controllerObj,$this->router->action)){
                 $this->controllerObj->setPrimaryValues($this->router->request->webFilesRoot,
                 $this->router->module,$this->router->controller,$this->router->action);
+                $this->controllerObj->urlSegmentsParams=$this->router->urlSegmentsObj;
 
                 $this->controllerObj->{$this->router->action}();
                 //echo '||<pre>'.print_r($this->controllerObj,true).'</pre>';

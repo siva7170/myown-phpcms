@@ -8,6 +8,7 @@ class Index extends Controller{
 
     public function index(){
         $this->pageTitle="Set from Test Controller";
+        $this->redirect("/page/viewpost/csharp/introcsharp");
         $this->layoutFile="main";
         $userLogin=UserLogin::find()->where(["user_name"=>"Siva"])->firstOrDefault();
         return $this->view("index",["t"=>$userLogin]);

@@ -5,6 +5,7 @@ class Router{
     public $controller;
     public $action;
     public $module;
+    public $urlSegmentsObj=[];
     public $request;
     public $errorRoute;
     public $errorRouteObj;
