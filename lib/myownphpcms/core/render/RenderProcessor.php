@@ -5,6 +5,7 @@ namespace myownphpcms\core\render;
 use myownphpcms\core\database\Database;
 use myownphpcms\core\database\DbDataModel;
 use myownphpcms\core\database\DbOperations;
+use myownphpcms\core\exception\MOException;
 
 class RenderProcessor {
     public $router;
@@ -103,15 +104,18 @@ class RenderProcessor {
                 $this->router->module,$this->router->controller,$this->router->action);
                 $this->controllerObj->urlSegmentsParams=$this->router->urlSegmentsObj;
 
-                $this->controllerObj->{$this->router->action}();
+//                $this->controllerObj->{$this->router->action}();
                 //echo '||<pre>'.print_r($this->controllerObj,true).'</pre>';
                 //echo $this->controllerObj->content;
-                $viewContent=$this->controllerObj->content."\n";
-                $layoutFile=$this->router->request->webFilesRoot."/".$this->router->module."/layouts/".$this->controllerObj->layoutFile.".php";
-                $pageTitle=$this->controllerObj->pageTitle;
-                ob_start();
-                include $layoutFile;
-                $this->finalRender=ob_get_clean(); 
+//                $viewContent=$this->controllerObj->content."\n";
+//                $layoutFile=$this->router->request->webFilesRoot."/".$this->router->module."/layouts/".$this->controllerObj->layoutFile.".php";
+//                $pageTitle=$this->controllerObj->pageTitle;
+//                ob_start();
+//                include $layoutFile;
+//                $this->finalRender=ob_get_clean();
+//                $this->handOver();
+
+                $this->finalRender=$this->controllerObj->{$this->router->action}();
                 $this->handOver();
             }
             else{
@@ -139,6 +143,35 @@ class RenderProcessor {
                 $this->findModule(true);
             }
         }
+    }
+
+    public function viewPartial($viewFile, $valArg=[]){
+        $viewSlashes=substr_count($viewFile,"/");
+        $viewFile_full='';
+        if($viewSlashes==0){
+            $viewFile_full=$this->router->request->webFilesRoot."/".$this->router->module."/views/".$this->router->controller."/".$viewFile.".php";
+        }
+        else if($viewSlashes==1){
+            $vRoutes=explode("/",$viewFile);
+            $viewFile_full=$this->router->request->webFilesRoot."/".$this->router->module."/views/".$vRoutes[0]."/".$vRoutes[1].".php";
+        }
+        else if($viewSlashes==2){
+            $vRoutes=explode("/",$viewFile);
+            $viewFile_full=$this->router->request->webFilesRoot."/".$this->router->module."/".$vRoutes[0]."/".$vRoutes[1]."/".$vRoutes[2].".php";
+        }
+        if(file_exists($viewFile_full)){
+            if (is_array($valArg)) {
+                extract($valArg);
+            }
+            ob_start();
+            include $viewFile_full;
+            $content=ob_get_clean();
+            return $content;
+        }
+        else{
+            throw new MOException("\"$viewFile\" view is not found in $this->module\\$this->controller");
+        }
+
     }
 
     public function createSelfErrorPage(){

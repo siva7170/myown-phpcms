@@ -16,6 +16,8 @@ class View {
     public $action;
     public $module;
 
+    public $viewContent;
+
    public function __construct()
    {
 
@@ -46,8 +48,15 @@ class View {
            }
         ob_start();
         include $this->viewFile_full;
+        $this->viewContent=ob_get_clean();
+
+        $layoutFile=$this->webFilesRoot."/".$this->module."/layouts/".$this->layoutFile.".php";
+
+        ob_start();
+        include $layoutFile;
         $this->content=ob_get_clean();
-        return $this;
+
+        return $this->content;
        }
        else{
            throw new MOException("\"$viewFile\" view is not found in $this->module\\$this->controller");
